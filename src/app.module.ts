@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from './users/users.module';
 import databaseConfig from './database/config/database.config';
 
 @Module({
@@ -23,7 +24,7 @@ import databaseConfig from './database/config/database.config';
       autoLoadEntities: true,
       synchronize: true
     })
-  }), DatabaseModule
+  }), DatabaseModule, UsersModule
 ],
   controllers: [AppController],
   providers: [AppService],
