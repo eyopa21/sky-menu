@@ -5,13 +5,15 @@ import { DatabaseModule } from './database/database.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 import databaseConfig from './database/config/database.config';
+import jwtConfig from './auth/config/jwt.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig]
+      load: [databaseConfig, jwtConfig]
     }),
     TypeOrmModule.forRootAsync({
     useFactory: () => ({
@@ -24,7 +26,7 @@ import databaseConfig from './database/config/database.config';
       autoLoadEntities: true,
       synchronize: true
     })
-  }), DatabaseModule, UsersModule
+  }), DatabaseModule, UsersModule, AuthModule
 ],
   controllers: [AppController],
   providers: [AppService],
