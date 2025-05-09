@@ -56,4 +56,14 @@ export class AuthService {
             user: {...user, password: undefined}
         }
     }
+
+    async validateToken(token: string) {
+        try {
+          const decoded = this.authJwtService.verify(token, {});
+          return decoded;
+        } catch (e: any) {
+          console.error(e);
+          throw new UnauthorizedException('Invalid token');
+        }
+      }
 }
