@@ -34,16 +34,11 @@ export class AuthService {
     }
 
     async login(loginDto: LoginDto) {
-
         const user = await this.userService.findUserByEmail(loginDto.email)
-
         if (!user) {
         
             throw new NotFoundException('User not found');
         }
-
-        
-        
         const isCorrectPassword = await bcrypt.compare(
             loginDto.password,
             user.password,

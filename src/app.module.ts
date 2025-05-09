@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { CommonModule } from './common/common.module';
 import databaseConfig from './database/config/database.config';
 import jwtConfig from './auth/config/jwt.config';
 
@@ -26,7 +27,7 @@ import jwtConfig from './auth/config/jwt.config';
       autoLoadEntities: true,
       synchronize: true
     })
-  }), DatabaseModule, UsersModule, AuthModule
+  }), DatabaseModule, UsersModule, AuthModule, CommonModule
 ],
   controllers: [AppController],
   providers: [AppService],
