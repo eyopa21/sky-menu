@@ -10,9 +10,10 @@ import { CommonModule } from 'src/common/common.module';
     JwtModule.register({
       secret: process.env.JWT_ACCESS_SECRET
     }), 
-    UsersModule, CommonModule
+    UsersModule
   ],
   controllers: [AuthController],
-  providers: [AuthService]
+  providers: [AuthService],
+  exports: [AuthService]
 })
 export class AuthModule {}

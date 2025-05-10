@@ -6,6 +6,15 @@ import jwtConfig from './config/jwt.config';
 import { ConfigType } from '@nestjs/config';
 import * as bcrypt from 'bcryptjs';
 
+
+interface JwtPayload {
+  sub: number;
+  email: string;
+  iat: number;
+  exp: number
+}
+
+
 @Injectable()
 export class AuthService {
 
@@ -50,16 +59,19 @@ export class AuthService {
         const accessToken = await this.generateAccessToken(user.id, user.email)
         const refreshToken = await this.generateRefreshToken(user.id)
 
+        // return plainToInstance(User, user, { excludeExtraneousValues: true });
         return {
             accessToken,
             refreshToken,
-            user: {...user, password: undefined}
+            user
         }
     }
 
     async validateToken(token: string) {
         try {
-          const decoded = this.authJwtService.verify(token, {});
+          const decoded = this.authJwtService.verify<JwtPayload>(token, {
+            secret: process.env.JWT_ACCESS_SECRET
+          });
           return decoded;
         } catch (e: any) {
           console.error(e);

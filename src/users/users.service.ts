@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { ClassSerializerInterceptor, HttpException, HttpStatus, Injectable, NotFoundException, UseInterceptors } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './entity/user.entity';
 import { Repository } from 'typeorm';
@@ -17,7 +17,7 @@ export class UsersService {
     }
 
 
-    async findUserByEmail(email: string){
+    async findUserByEmail(email: string) {
         const user = await this.userRepository.findOneBy({
             email
         })
@@ -25,9 +25,10 @@ export class UsersService {
         return user
     }
 
-    findOne(id: number) {
+  
+    async findOne(id: number) {
 
-        const user = this.userRepository.findOneBy({ id })
+        const user = await this.userRepository.findOneBy({ id })
         if (!user) {
             throw new NotFoundException(`User not found`)
         }
@@ -38,9 +39,6 @@ export class UsersService {
         let hashedPassword: string = ''
         const salt = await bcrypt.genSalt();
         hashedPassword = await bcrypt.hash(createUserDto.password, salt);
-
-
-
         const userObject = await this.userRepository.findOne({
             where: {
                 email: createUserDto.email,
