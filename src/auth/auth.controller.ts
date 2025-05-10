@@ -16,10 +16,17 @@ export class AuthController {
         return this.authService.login(loginDto)
     }
 
-    
+
     @UseGuards(AuthGuard)
     @Get('me')
     getMe(@Req() req: any){
         return req.user
     }
+
+    @Post('refresh')
+    async refresh(@Body('refreshToken') refreshToken: string) {
+        console.log(refreshToken)
+      return this.authService.validateRefreshToken(refreshToken);
+    }
+    
 }

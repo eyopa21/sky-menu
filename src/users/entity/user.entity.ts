@@ -27,7 +27,7 @@ export class Users {
     email: string
 
 
-    @Column({  type: String  })
+        @Column({  type: String  })
     @Exclude({ toPlainOnly: true })
     password: string
 
