@@ -1,6 +1,7 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
 import { SEX } from "../constants/sex.enum";
 import { Exclude } from "class-transformer";
+import { Projects } from "src/projects/entity/projects.entity";
 
 
 @Entity()
@@ -27,10 +28,9 @@ export class Users {
     email: string
 
 
-        @Column({  type: String  })
+    @Column({  type: String  })
     @Exclude({ toPlainOnly: true })
     password: string
-
 
     @CreateDateColumn()
     createdAt: Date;
@@ -42,6 +42,10 @@ export class Users {
 
     @DeleteDateColumn()
     deletedAt: Date;
+
+
+    @OneToMany(() => Projects, project => project.user, { cascade: true })
+    projects: Projects[];
 
 
 } 

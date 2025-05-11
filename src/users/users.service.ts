@@ -4,12 +4,15 @@ import { Users } from './entity/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
+import { Projects } from 'src/projects/entity/projects.entity';
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(Users)
-        private readonly userRepository: Repository<Users>
+        private readonly userRepository: Repository<Users>,
+        @InjectRepository(Projects)
+        private readonly projectsRepository: Repository<Projects>
     ) { }
 
     findAll() {
@@ -28,7 +31,10 @@ export class UsersService {
   
     async findOne(id: number) {
 
-        const user = await this.userRepository.findOneBy({ id })
+        const user = await this.userRepository.findOne({
+            where: {id}, 
+            relations: ['projects']
+         })
         if (!user) {
             throw new NotFoundException(`User not found`)
         }
