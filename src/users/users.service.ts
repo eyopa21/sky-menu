@@ -14,34 +14,26 @@ export class UsersService {
         @InjectRepository(Projects)
         private readonly projectsRepository: Repository<Projects>
     ) { }
-
     findAll() {
         return this.userRepository.find({
             relations: ['projects']
         })
     }
-
-
     async findUserByEmail(email: string) {
         const user = await this.userRepository.findOneBy({
             email
         })
-
         return user
     }
-
-  
     async findOneById(id: number) {
         const user = await this.userRepository.findOne({
-            where: {id}, 
-            relations: ['projects']
+            where: {id} 
          })
         if (!user) {
             throw new NotFoundException(`User not found`)
         }
         return user
     }
-
     async create(createUserDto: CreateUserDto) {
         let hashedPassword: string = ''
         const salt = await bcrypt.genSalt();
@@ -62,7 +54,6 @@ export class UsersService {
                 HttpStatus.UNPROCESSABLE_ENTITY,
             );
         }
-
         const user = this.userRepository.create({ ...createUserDto, password: hashedPassword })
         return this.userRepository.save(user)
 
