@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { Projects } from 'src/projects/entity/projects.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -56,6 +57,16 @@ export class UsersService {
         }
         const user = this.userRepository.create({ ...createUserDto, password: hashedPassword })
         return this.userRepository.save(user)
+    }
 
+    async updateUser(id: number, updateUserDto: UpdateUserDto){
+        const user = await this.projectsRepository.preload({
+            id: +id,
+            ...updateUserDto,   
+        })
+        if (!user) {
+            throw new NotFoundException(`User not found`)
+        }
+        return this.projectsRepository.save(user)
     }
 }
