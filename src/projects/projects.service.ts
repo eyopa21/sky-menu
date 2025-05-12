@@ -33,4 +33,15 @@ export class ProjectsService {
         })
         return this.projectsRepository.save(project)
     }
+
+   async removeProject(id: number){
+        const project = await this.projectsRepository.findOneBy({ 
+            id
+         })
+        if (!project) {
+            throw new NotFoundException(`Project not found`)
+        }
+        console.log(project)
+        return this.projectsRepository.remove(project)
+    }
 }
