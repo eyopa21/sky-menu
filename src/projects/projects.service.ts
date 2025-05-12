@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Projects } from './entity/projects.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/users/users.service';
+import { UpdateProjectDto } from './dto/updateProject.dto';
 
 @Injectable()
 export class ProjectsService {
@@ -33,7 +34,7 @@ export class ProjectsService {
         })
         return this.projectsRepository.save(project)
     }
-
+    
    async removeProject(id: number){
         const project = await this.projectsRepository.findOneBy({ 
             id
@@ -43,5 +44,16 @@ export class ProjectsService {
         }
         console.log(project)
         return this.projectsRepository.remove(project)
+    }
+
+    async updateProject(id: number, updateProjectDto: UpdateProjectDto){
+        const project = await this.projectsRepository.preload({
+            id: +id,
+            ...updateProjectDto,   
+        })
+        if (!project) {
+            throw new NotFoundException(`Project not found`)
+        }
+        return this.projectsRepository.save(project)
     }
 }
