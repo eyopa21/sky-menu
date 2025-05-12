@@ -16,7 +16,9 @@ export class UsersService {
     ) { }
 
     findAll() {
-        return this.userRepository.find()
+        return this.userRepository.find({
+            relations: ['projects']
+        })
     }
 
 
@@ -29,8 +31,7 @@ export class UsersService {
     }
 
   
-    async findOne(id: number) {
-
+    async findOneById(id: number) {
         const user = await this.userRepository.findOne({
             where: {id}, 
             relations: ['projects']

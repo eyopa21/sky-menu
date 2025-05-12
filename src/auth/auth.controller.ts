@@ -25,7 +25,6 @@ export class AuthController {
 
     @Post('refresh')
     async refresh(@Body('refreshToken') refreshToken: string) {
-        console.log(refreshToken)
       return this.authService.validateRefreshToken(refreshToken);
     }
     

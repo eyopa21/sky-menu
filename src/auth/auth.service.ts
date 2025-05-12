@@ -65,7 +65,7 @@ export class AuthService {
             const decoded = this.authJwtService.verify<Omit<JwtPayload, 'email'>>(refreshToken, {
                 secret: process.env.JWT_REFRESH_SECRET
             });
-            const user = await this.userService.findOne(decoded.sub)
+            const user = await this.userService.findOneById(decoded.sub)
             const accessToken = await this.generateAccessToken(user.id, user.email)
             return {
                 accessToken
