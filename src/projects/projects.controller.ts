@@ -14,9 +14,13 @@ export class ProjectsController {
     private readonly projectsService: ProjectsService
   ) { }
 
-@Get()
-  find(){
-    return this.projectsService.getAll()
+  @Get()
+  @UseGuards(AuthGuard)
+  find(@Req() request: Request) {
+
+    const userId = request.user.id
+
+    return this.projectsService.getMyProjects(userId)
   }
 
 
@@ -31,7 +35,7 @@ export class ProjectsController {
   @UseGuards(AuthGuard)
   createOne(@Body() createProjectDto: CreateProjectDto, @Req() request: Request) {
     const user = request.user
-    if(!user){
+    if (!user) {
       throw new NotFoundException('User not found');
     }
     return this.projectsService.createOne(createProjectDto, user)
