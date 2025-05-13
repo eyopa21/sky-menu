@@ -22,6 +22,8 @@ export class UsersController {
     }
 
     @Get(':id')
+    @ApplyOwnershipMetadata(Users, 'user')
+    @UseGuards(AuthGuard,  OwnershipGuard)
     findOne(@Param('id') id: number) {
         return this.userService.findOneById(id)
     }
