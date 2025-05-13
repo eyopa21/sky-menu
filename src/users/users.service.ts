@@ -12,8 +12,6 @@ export class UsersService {
     constructor(
         @InjectRepository(Users)
         private readonly userRepository: Repository<Users>,
-        @InjectRepository(Projects)
-        private readonly projectsRepository: Repository<Projects>
     ) { }
     findAll() {
         return this.userRepository.find({
@@ -60,13 +58,13 @@ export class UsersService {
     }
 
     async updateUser(id: number, updateUserDto: UpdateUserDto){
-        const user = await this.projectsRepository.preload({
+        const user = await this.userRepository.preload({
             id: +id,
             ...updateUserDto,   
         })
         if (!user) {
             throw new NotFoundException(`User not found`)
         }
-        return this.projectsRepository.save(user)
+        return this.userRepository.save(user)
     }
 }
