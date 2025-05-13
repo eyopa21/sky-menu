@@ -12,20 +12,24 @@ export class ProjectsService {
         @InjectRepository(Projects)
         private readonly projectsRepository: Repository<Projects>,
         private readonly usersService: UsersService
-    ) {}
+    ) { }
 
-    async getProjectsCount(userId: number){
-        const count  = await this.projectsRepository.countBy({
-            userId: 3
+    async getProjectsCount(userId: number) {
+        const count = await this.projectsRepository.countBy({
+            userId: userId
         })
         return count
     }
 
-
-    async findOneById(id: number){
+    async getAll() {
+        return this.projectsRepository.find({
+            relations: ['user']
+        })
+    }
+    async findOneById(id: number) {
         const project = await this.projectsRepository.findOne({
-            where: {id} 
-         })
+            where: { id }
+        })
         if (!project) {
             throw new NotFoundException(`Project not found`)
         }
@@ -38,19 +42,19 @@ export class ProjectsService {
             throw new NotFoundException('User not found');
         }
         const projectsCount = await this.getProjectsCount(createProjectDto.userId)
-         if(projectsCount >= 5 ){
+        if (projectsCount >= 5) {
             throw new BadRequestException('Maximum of 5 projects allowed');
-         }
+        }
         const project = this.projectsRepository.create({
             ...createProjectDto
         })
         return this.projectsRepository.save(project)
     }
-    
-   async removeProject(id: number){
-        const project = await this.projectsRepository.findOneBy({ 
+
+    async removeProject(id: number) {
+        const project = await this.projectsRepository.findOneBy({
             id
-         })
+        })
         if (!project) {
             throw new NotFoundException(`Project not found`)
         }
@@ -58,10 +62,10 @@ export class ProjectsService {
         return this.projectsRepository.remove(project)
     }
 
-    async updateProject(id: number, updateProjectDto: UpdateProjectDto){
+    async updateProject(id: number, updateProjectDto: UpdateProjectDto) {
         const project = await this.projectsRepository.preload({
             id: +id,
-            ...updateProjectDto,   
+            ...updateProjectDto,
         })
         if (!project) {
             throw new NotFoundException(`Project not found`)
