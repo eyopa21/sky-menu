@@ -15,12 +15,10 @@ export class UsersController {
 
    
     @Get()
-    findAll(@Req() req: any) {
-        // Inject service for guard access
-        req._userService = this.userService;
+    findAll() {
         return this.userService.findAll()
     }
-
+    
     @Get(':id')
     @ApplyOwnershipMetadata(Users, 'user')
     @UseGuards(AuthGuard,  OwnershipGuard)

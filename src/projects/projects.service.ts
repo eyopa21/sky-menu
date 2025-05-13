@@ -5,6 +5,7 @@ import { Projects } from './entity/projects.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/users/users.service';
 import { UpdateProjectDto } from './dto/updateProject.dto';
+import { Users } from 'src/users/entity/user.entity';
 
 @Injectable()
 export class ProjectsService {
@@ -36,12 +37,9 @@ export class ProjectsService {
         return project
     }
 
-    async createOne(createProjectDto: CreateProjectDto) {
-        const user = await this.usersService.findOneById(createProjectDto.userId)
-        if (!user) {
-            throw new NotFoundException('User not found');
-        }
-        const projectsCount = await this.getProjectsCount(createProjectDto.userId)
+    async createOne(createProjectDto: CreateProjectDto, user: Users) {
+
+        const projectsCount = await this.getProjectsCount(user.id)
         if (projectsCount >= 5) {
             throw new BadRequestException('Maximum of 5 projects allowed');
         }

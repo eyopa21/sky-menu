@@ -4,10 +4,6 @@ import { IsNotEmpty,IsOptional,IsPositive,IsString,IsUrl,MinLength } from "class
 
 export class CreateProjectDto {
   
-    @IsPositive()
-    readonly userId: number
-
-
     @MinLength(3)
     @IsString()
     @IsNotEmpty()

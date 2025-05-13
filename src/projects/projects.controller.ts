@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/createProject.dto';
 import { UpdateProjectDto } from './dto/updateProject.dto';
@@ -6,6 +6,7 @@ import { ApplyOwnershipMetadata } from 'src/common/guard/decorators/ownership.de
 import { AuthGuard } from 'src/common/guard/auth.guard';
 import { OwnershipGuard } from 'src/common/guard/ownership.guard';
 import { Projects } from './entity/projects.entity';
+import { Request } from 'express';
 
 @Controller('projects')
 export class ProjectsController {
@@ -27,8 +28,13 @@ export class ProjectsController {
   }
 
   @Post()
-  createOne(@Body() createProjectDto: CreateProjectDto) {
-    return this.projectsService.createOne(createProjectDto)
+  @UseGuards(AuthGuard)
+  createOne(@Body() createProjectDto: CreateProjectDto, @Req() request: Request) {
+    const user = request.user
+    if(!user){
+      throw new NotFoundException('User not found');
+    }
+    return this.projectsService.createOne(createProjectDto, user)
   }
 
   @Patch(':id')
@@ -38,6 +44,8 @@ export class ProjectsController {
     return this.projectsService.updateProject(+id, updateProjectDto)
   }
 
+  @ApplyOwnershipMetadata(Projects, 'user')
+  @UseGuards(AuthGuard, OwnershipGuard)
   @Delete(':id')
   deleteProject(@Param('id') id: string) {
     return this.projectsService.removeProject(+id)
