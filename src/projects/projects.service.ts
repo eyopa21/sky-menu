@@ -20,6 +20,18 @@ export class ProjectsService {
         })
         return count
     }
+
+
+    async findOneById(id: number){
+        const project = await this.projectsRepository.findOne({
+            where: {id} 
+         })
+        if (!project) {
+            throw new NotFoundException(`Project not found`)
+        }
+        return project
+    }
+
     async createOne(createProjectDto: CreateProjectDto) {
         const user = await this.usersService.findOneById(createProjectDto.userId)
         if (!user) {

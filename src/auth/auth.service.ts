@@ -19,7 +19,7 @@ export class AuthService {
         const payload = { sub: userId, email };
         return this.authJwtService.sign(payload, {
             secret: this.jwtConfigService.JWT_ACCESS_SECRET,
-            expiresIn: '15m'
+            expiresIn: '45m'
         });
     }
     async generateRefreshToken(userId: number) {
