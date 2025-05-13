@@ -18,7 +18,7 @@ export class UsersController {
     findAll() {
         return this.userService.findAll()
     }
-    
+
     @Get(':id')
     @ApplyOwnershipMetadata(Users, 'user')
     @UseGuards(AuthGuard,  OwnershipGuard)
@@ -26,6 +26,7 @@ export class UsersController {
         return this.userService.findOneById(id)
     }
 
+    // Register a user
     @Post()
     create(@Body() createUserDto: CreateUserDto) {
         return this.userService.create(createUserDto)
@@ -34,7 +35,6 @@ export class UsersController {
     @Patch(':id')
     @ApplyOwnershipMetadata(Users, 'user')
     @UseGuards(AuthGuard,  OwnershipGuard)
-
     update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
         return this.userService.updateUser(+id, updateUserDto)
     }

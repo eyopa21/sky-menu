@@ -3,6 +3,8 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { AuthGuard } from 'src/common/guard/auth.guard';
 import { UsersService } from 'src/users/users.service';
+import { Request } from 'express';
+import { RefreshTokenDto } from './dto/refreshToken.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -19,13 +21,13 @@ export class AuthController {
 
     @UseGuards(AuthGuard)
     @Get('me')
-    getMe(@Req() req: any){
+    getMe(@Req() req: Request){
         return req.user
     }
 
     @Post('refresh')
-    async refresh(@Body('refreshToken') refreshToken: string) {
-      return this.authService.validateRefreshToken(refreshToken);
+    async refresh(@Body() refreshTokenDto: RefreshTokenDto) {
+      return this.authService.validateRefreshToken(refreshTokenDto.refreshToken);
     }
     
 }
