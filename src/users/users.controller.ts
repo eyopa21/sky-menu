@@ -1,29 +1,41 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthGuard } from 'src/common/guard/auth.guard';
+import { OwnershipGuard } from 'src/common/guard/ownership.guard';
+import { Request } from 'express';
+import { ApplyOwnershipMetadata } from 'src/common/guard/decorators/ownership.decorator';
+import { Users } from './entity/user.entity';
+
 
 @Controller('users')
 export class UsersController {
-    constructor( private readonly userService: UsersService){}
+    constructor(private readonly userService: UsersService) { }
 
+   
     @Get()
-    findAll(){
+    findAll(@Req() req: any) {
+        // Inject service for guard access
+        req._userService = this.userService;
         return this.userService.findAll()
     }
 
     @Get(':id')
-    findOne(@Param('id') id: number){
+    findOne(@Param('id') id: number) {
         return this.userService.findOneById(id)
     }
 
     @Post()
-    create(@Body() createUserDto: CreateUserDto){
+    create(@Body() createUserDto: CreateUserDto) {
         return this.userService.create(createUserDto)
     }
 
+    @Patch(':id')
+    @ApplyOwnershipMetadata(Users, 'user')
+    @UseGuards(AuthGuard,  OwnershipGuard)
 
-    update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto){
+    update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
         return this.userService.updateUser(+id, updateUserDto)
     }
 }
