@@ -13,6 +13,7 @@ export class CreateCategoryDto {
 
 
     @IsUrl()
+    @IsOptional()
     readonly imageUrl: string
 
 }

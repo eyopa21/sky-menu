@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Categories } from './entity/categories.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -34,11 +34,12 @@ export class CategoriesService {
         if (!project) {
             throw new NotFoundException('Project not found')
         }
-        if(project.userId !== userId){
-             throw new ForbiddenException('You do not own this resource')
+        if (project.userId !== userId) {
+            throw new ForbiddenException('You do not own this resource')
         }
-        const category =  this.categoriesRepository.create(createCategoryDto)
-        return this.categoriesRepository.save(category)
+        const category = this.categoriesRepository.create(createCategoryDto)
+
+        return await this.categoriesRepository.save(category)
 
     }
 

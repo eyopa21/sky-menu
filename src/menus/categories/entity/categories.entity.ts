@@ -1,15 +1,16 @@
 
 import { Projects } from "src/projects/entity/projects.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, Timestamp, Unique, UpdateDateColumn } from "typeorm";
 
 
 
 @Entity()
+@Unique(['projectId', 'name']) // 👈 composite unique constraint
 export class Categories {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({type: Number, unique: true})
+    @Column({type: Number})
     projectId: number
 
     
