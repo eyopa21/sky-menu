@@ -1,7 +1,8 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
 
 import { Exclude } from "class-transformer";
 import { Users } from "src/users/entity/user.entity";
+import { Menus } from "src/menus/entity/menus.entity";
 
 
 @Entity()
@@ -26,8 +27,6 @@ export class Projects {
     @Column({ type: String, nullable: true })
     coverImage: string | null;
   
-    
-
     @CreateDateColumn()
     createdAt: Date;
 
@@ -36,11 +35,11 @@ export class Projects {
 
     @DeleteDateColumn()
     deletedAt: Date;
-
-
-   
   
     @ManyToOne(() => Users, user => user.projects)
     @JoinColumn({ name: 'userId' }) 
     user: Users;
+
+    @OneToOne(() => Menus, menu => menu.project, { cascade: true })
+    menu: Menus;
 } 
