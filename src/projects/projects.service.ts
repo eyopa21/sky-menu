@@ -54,7 +54,8 @@ export class ProjectsService {
             throw new BadRequestException('Maximum of 5 projects allowed');
         }
         const project = this.projectsRepository.create({
-            ...createProjectDto
+            ...createProjectDto, 
+            userId: user.id
         })
         return this.projectsRepository.save(project)
     }
