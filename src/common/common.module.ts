@@ -6,6 +6,7 @@ import { UsersModule } from 'src/users/users.module';
 
 @Module({
     imports: [AuthModule, UsersModule],
-    providers: [AuthGuard]
+    providers: [AuthGuard], 
+    exports: [AuthGuard]
 })
 export class CommonModule {}

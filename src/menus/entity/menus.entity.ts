@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsPositive } from "class-validator";
+
 import { Projects } from "src/projects/entity/projects.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
 

@@ -7,8 +7,9 @@ import { UsersModule } from 'src/users/users.module';
 import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-   imports: [TypeOrmModule.forFeature([Projects]), UsersModule, AuthModule], 
+  imports: [TypeOrmModule.forFeature([Projects]), UsersModule, AuthModule],
   controllers: [ProjectsController],
-  providers: [ProjectsService]
+  providers: [ProjectsService],
+  exports: [ProjectsService]
 })
-export class ProjectsModule {}
+export class ProjectsModule { }
