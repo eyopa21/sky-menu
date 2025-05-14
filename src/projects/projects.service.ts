@@ -32,7 +32,8 @@ export class ProjectsService {
         return this.projectsRepository.find({
             where: {
                 userId
-            }
+            }, 
+            relations: ['menu']
         })
     }
 
@@ -65,7 +66,6 @@ export class ProjectsService {
         if (!project) {
             throw new NotFoundException(`Project not found`)
         }
-        console.log(project)
         return this.projectsRepository.remove(project)
     }
 

@@ -4,6 +4,7 @@ import {
   ExecutionContext,
   UnauthorizedException,
   ForbiddenException,
+  NotFoundException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Users } from 'src/users/entity/user.entity';
@@ -48,7 +49,7 @@ export class OwnershipGuard implements CanActivate {
 
 
     if (!resource) {
-      throw new ForbiddenException('Resource not found');
+      throw new NotFoundException('Resource not found');
     }
 
     const owner = getNestedValue(resource, ownershipField);
