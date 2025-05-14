@@ -3,6 +3,7 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, JoinTab
 import { Exclude } from "class-transformer";
 import { Users } from "src/users/entity/user.entity";
 import { Menus } from "src/menus/entity/menus.entity";
+import { Categories } from "src/menus/categories/entity/categories.entity";
 
 
 @Entity()
@@ -42,4 +43,7 @@ export class Projects {
 
     @OneToOne(() => Menus, menu => menu.project, { cascade: true })
     menu: Menus;
+
+    @OneToMany(() =>  Categories, category => category.project, {cascade: true})
+    categories: Categories
 } 
