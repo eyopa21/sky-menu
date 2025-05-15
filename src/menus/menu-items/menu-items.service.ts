@@ -27,6 +27,17 @@ export class MenuItemsService {
         })
     }
 
+
+    async findOneById(id: number) {
+        const menuItem = await this.menuItemsRepository.findOneBy({ id })
+
+        if (!menuItem) {
+            throw new NotFoundException('MenuItem not found')
+        }
+        return menuItem
+
+    }
+
     async createOne(createMenuItemDto: CreateMenuItemDto, userId: number) {
         const menu = await this.menusService.findOneById(createMenuItemDto.menuId)
         const category = await this.categoriesService.findOneById(createMenuItemDto.categoryId)
@@ -56,5 +67,12 @@ export class MenuItemsService {
 
 
         return this.menuItemsRepository.save(menuItem)
+    }
+
+
+    async remove(id: number) {
+        const menuItem = await this.findOneById(id)
+
+        return this.menuItemsRepository.remove(menuItem)
     }
 }
