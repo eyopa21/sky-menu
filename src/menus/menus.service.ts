@@ -24,7 +24,7 @@ export class MenusService {
             where: {
                 id
             }, 
-            relations: ['project']
+            relations: ['project', 'menuItems']
          })
         if (!menu) {
             throw new NotFoundException('Menu not found')

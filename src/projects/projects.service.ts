@@ -33,7 +33,7 @@ export class ProjectsService {
             where: {
                 userId
             }, 
-            relations: ['menu']
+            relations: ['menu', 'categories']
         })
     }
 

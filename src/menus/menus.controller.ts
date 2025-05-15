@@ -22,6 +22,13 @@ export class MenusController {
         return this.menusService.findAll()
     }
 
+    @Get(':id')
+    @ApplyOwnershipMetadata(Menus, 'project.user')
+    @UseGuards(AuthGuard, OwnershipGuard)
+    findOne(@Param('id') id: string){
+        return this.menusService.findOneById(+id)
+    }
+
     @Post()
     @UseGuards(AuthGuard)
     create(@Body() createMenuDto: CreateMenuDto, @Req() request: Request) {
