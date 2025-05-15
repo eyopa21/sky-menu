@@ -20,7 +20,7 @@ export class MenusService {
     }
 
     async findOneById(id: number) {
-        const menu = this.menusRepository.findBy({ id })
+        const menu = this.menusRepository.findOneBy({ id })
         if (!menu) {
             throw new NotFoundException('Menu not found')
         }
@@ -58,7 +58,10 @@ export class MenusService {
     }
 
     async removeMenu(id: number) {
-        const project = await this.findOneById(id)
-        return this.menusRepository.remove(project)
+        const menu = await this.findOneById(id)
+        if(!menu){
+            throw new NotFoundException('Menu Not Found')
+        }
+        return this.menusRepository.remove(menu)
     }
 }
