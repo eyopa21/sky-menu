@@ -15,6 +15,10 @@ export class CategoriesService {
     ) { }
 
 
+    async findAll() {
+        return this.categoriesRepository.find()
+    }
+
     findCategoriesByProjectId(projectId: number) {
         const categories = this.categoriesRepository.findBy({ projectId })
         return categories

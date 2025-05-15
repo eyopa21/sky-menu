@@ -14,10 +14,15 @@ export class CategoriesController {
         private readonly categoriesService: CategoriesService
     ){}
 
+    @Get()
+    findAll(){
+        return this.categoriesService.findAll()
+    }
+
     @Get('by-project/:projectId')
     @ApplyOwnershipMetadata(Categories, 'projects.user')
     @UseGuards(AuthGuard, OwnershipGuard)
-    findAll(@Param('projectId') projectId: string){
+    find(@Param('projectId') projectId: string){
         return this.categoriesService.findCategoriesByProjectId(+projectId)
 
     }
