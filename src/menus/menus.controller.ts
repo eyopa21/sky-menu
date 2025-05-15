@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 
 import { MenusService } from './menus.service';
@@ -17,6 +17,7 @@ export class MenusController {
         private readonly menusService: MenusService
     ) { }
 
+    @Get()
     findAll(@Req() request: Request) {
         return this.menusService.findAll()
     }

@@ -20,7 +20,12 @@ export class MenusService {
     }
 
     async findOneById(id: number) {
-        const menu = this.menusRepository.findOneBy({ id })
+        const menu = await this.menusRepository.findOne({ 
+            where: {
+                id
+            }, 
+            relations: ['project']
+         })
         if (!menu) {
             throw new NotFoundException('Menu not found')
         }

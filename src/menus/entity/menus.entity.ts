@@ -1,6 +1,7 @@
 
 import { Projects } from "src/projects/entity/projects.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
+import { MenuItems } from "../menu-items/entity/menu-items.entity";
 
 
 
@@ -29,5 +30,8 @@ export class Menus {
     @OneToOne(() => Projects, project => project.menu)
     @JoinColumn({ name: 'projectId' })
     project: Projects;
+
+    @OneToMany(() => MenuItems, menuItem => menuItem.menu)
+    menuItems: MenuItems
 
 } 
