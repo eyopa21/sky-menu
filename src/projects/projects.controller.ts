@@ -14,6 +14,12 @@ export class ProjectsController {
     private readonly projectsService: ProjectsService
   ) { }
 
+
+  @Get('all')
+  findAll(){
+    return this.projectsService.getAll()
+  }
+
   @Get()
   @UseGuards(AuthGuard)
   find(@Req() request: Request) {

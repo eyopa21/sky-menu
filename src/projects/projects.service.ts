@@ -24,7 +24,7 @@ export class ProjectsService {
 
     async getAll() {
         return this.projectsRepository.find({
-            relations: ['user']
+            relations: ['user', 'menu']
         })
     }
 

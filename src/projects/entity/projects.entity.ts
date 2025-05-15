@@ -46,4 +46,6 @@ export class Projects {
 
     @OneToMany(() =>  Categories, category => category.project, {cascade: true})
     categories: Categories
+
+    
 } 
