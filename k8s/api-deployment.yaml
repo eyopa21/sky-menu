@@ -29,8 +29,9 @@ spec:
           - name: DB_PORT
             valueFrom: 
               secretKeyRef: 
-                DB_PORT
-                
+                name: pg-secret
+                key: DB_PORT
+
           - name: DB_NAME
             valueFrom: 
               secretKeyRef: 
