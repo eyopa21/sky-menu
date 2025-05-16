@@ -1,4 +1,4 @@
-name: Build
+name: Sky-Menu-CI
 on:
   push:
     branches: [main]
@@ -7,7 +7,7 @@ on:
 jobs:
   format:
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
@@ -18,22 +18,22 @@ jobs:
         with:
           node-version: 23
           cache: pnpm
-          
+
       - name: Install dependencies
-      - run: pnpm i --frozen-lockfile
+        run: pnpm i --frozen-lockfile
 
       - name: Format
         run: pnpm run format
-    
+
       - name: Commit formatted files
         uses: stefanzweifel/git-auto-commit-action@v5
-        with: 
-          commit_message: "ci-fix: automatic prettier format fixes (pnpm run format) "
+        with:
+          commit_message: 'ci-fix: automatic prettier format fixes (pnpm run format) '
 
-        
   lint:
+    needs: format
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
@@ -55,13 +55,12 @@ jobs:
 
       - name: Commit linted files
         uses: stefanzweifel/git-auto-commit-action@v5
-        with: 
-          commit_message: "lint-fix: automatic pnpm run  lint --fix"
+        with:
+          commit_message: 'lint-fix: automatic pnpm run  lint --fix'
 
- 
-  build-and-push: 
+  build-and-push:
+    needs: format
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -74,7 +73,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
