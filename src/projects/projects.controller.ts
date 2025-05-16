@@ -33,7 +33,7 @@ export class ProjectsController {
   find(@Req() request: Request) {
     const userId = request.user.id;
 
-    return this.projectsService.getMyProjects(userId);
+    return this.projectsService.getMyProjects(+userId);
   }
 
   @Get(':id')

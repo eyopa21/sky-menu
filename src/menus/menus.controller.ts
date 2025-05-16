@@ -40,8 +40,8 @@ export class MenusController {
   @UseGuards(AuthGuard)
   create(@Body() createMenuDto: CreateMenuDto, @Req() request: Request) {
     const user = request.user;
-    return this.menusService.createOne(createMenuDto, user.id);
-  }
+    return this.menusService.createOne(createMenuDto, +user.id);
+  }s
 
   @Patch(':id')
   @ApplyOwnershipMetadata(Menus, 'project.user')

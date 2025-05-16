@@ -41,7 +41,7 @@ export class CategoriesController {
     @Req() request: Request,
   ) {
     const userId = request.user.id;
-    return this.categoriesService.createOne(createCategoryDto, userId);
+    return this.categoriesService.createOne(createCategoryDto, +userId);
   }
 
   @Patch(':id')
