@@ -41,7 +41,8 @@ export class MenusController {
   create(@Body() createMenuDto: CreateMenuDto, @Req() request: Request) {
     const user = request.user;
     return this.menusService.createOne(createMenuDto, +user.id);
-  }s
+  }
+  s;
 
   @Patch(':id')
   @ApplyOwnershipMetadata(Menus, 'project.user')
