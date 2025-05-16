@@ -18,11 +18,13 @@ async function bootstrap() {
     }),
   );
 
-  const options = new DocumentBuilder().setTitle('Sky-Menu').setDescription('Digital menu application').setVersion('1.0').build()
-  const document = SwaggerModule.createDocument(app, options)
-  SwaggerModule.setup('api', app, document)
-
-
+  const options = new DocumentBuilder()
+    .setTitle('Sky-Menu')
+    .setDescription('Digital menu application')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api', app, document);
 
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalFilters(new HttpExceptionFilter(), new TypeOrmExceptionFilter());
