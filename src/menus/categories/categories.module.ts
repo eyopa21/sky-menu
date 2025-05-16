@@ -8,9 +8,14 @@ import { UsersModule } from 'src/users/users.module';
 import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Categories]), ProjectsModule, UsersModule, AuthModule],
+  imports: [
+    TypeOrmModule.forFeature([Categories]),
+    ProjectsModule,
+    UsersModule,
+    AuthModule,
+  ],
   controllers: [CategoriesController],
   providers: [CategoriesService],
-  exports: [CategoriesService]
+  exports: [CategoriesService],
 })
-export class CategoriesModule { }
+export class CategoriesModule {}

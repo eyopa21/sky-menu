@@ -11,9 +11,16 @@ import { CategoriesModule } from './categories/categories.module';
 import { MenuItemsModule } from './menu-items/menu-items.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Menus]), ProjectsModule, UsersModule, AuthModule, CategoriesModule, MenuItemsModule],
+  imports: [
+    TypeOrmModule.forFeature([Menus]),
+    ProjectsModule,
+    UsersModule,
+    AuthModule,
+    CategoriesModule,
+    MenuItemsModule,
+  ],
   providers: [MenusService],
-  controllers: [MenusController], 
-  exports: [MenusService]
+  controllers: [MenusController],
+  exports: [MenusService],
 })
 export class MenusModule {}

@@ -1,51 +1,62 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  Timestamp,
+  UpdateDateColumn,
+} from 'typeorm';
 
-import { Exclude } from "class-transformer";
-import { Users } from "src/users/entity/user.entity";
-import { Menus } from "src/menus/entity/menus.entity";
-import { Categories } from "src/menus/categories/entity/categories.entity";
-
+import { Exclude } from 'class-transformer';
+import { Users } from 'src/users/entity/user.entity';
+import { Menus } from 'src/menus/entity/menus.entity';
+import { Categories } from 'src/menus/categories/entity/categories.entity';
 
 @Entity()
 export class Projects {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column() 
-    userId: number;
+  @Column()
+  userId: number;
 
-    
-    @Column({ type: String, unique: true })
-    title: string;
+  @Column({ type: String, unique: true })
+  title: string;
 
-    @Column({  type: String  })
-    description: string
+  @Column({ type: String })
+  description: string;
 
+  @Column({ type: String })
+  logo: string;
 
-    @Column({ type: String })
-    logo: string
-    
-    @Column({ type: String, nullable: true })
-    coverImage: string | null;
-  
-    @CreateDateColumn()
-    createdAt: Date;
+  @Column({ type: String, nullable: true })
+  coverImage: string | null;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @DeleteDateColumn()
-    deletedAt: Date;
-  
-    @ManyToOne(() => Users, user => user.projects)
-    @JoinColumn({ name: 'userId' }) 
-    user: Users;
+  @UpdateDateColumn()
+  updatedAt: Date;
 
-    @OneToOne(() => Menus, menu => menu.project, { cascade: true })
-    menu: Menus;
+  @DeleteDateColumn()
+  deletedAt: Date;
 
-    @OneToMany(() =>  Categories, category => category.project, {cascade: true})
-    categories: Categories
+  @ManyToOne(() => Users, (user) => user.projects)
+  @JoinColumn({ name: 'userId' })
+  user: Users;
 
-    
-} 
+  @OneToOne(() => Menus, (menu) => menu.project, { cascade: true })
+  menu: Menus;
+
+  @OneToMany(() => Categories, (category) => category.project, {
+    cascade: true,
+  })
+  categories: Categories;
+}

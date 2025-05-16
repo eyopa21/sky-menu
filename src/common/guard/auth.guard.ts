@@ -1,4 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/auth/auth.service';
@@ -7,13 +12,11 @@ import { UsersService } from 'src/users/users.service';
 export class AuthGuard implements CanActivate {
   constructor(
     private readonly authService: AuthService,
-    private readonly userService: UsersService
-  ) { }
-  async canActivate(
-    context: ExecutionContext,
-  ): Promise<boolean> {
-    const request = context.switchToHttp().getRequest<Request>()
-    const { authorization } = request.headers
+    private readonly userService: UsersService,
+  ) {}
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest<Request>();
+    const { authorization } = request.headers;
     if (!authorization || authorization.trim() === '') {
       throw new UnauthorizedException('Please provide token');
     }
@@ -27,7 +30,7 @@ export class AuthGuard implements CanActivate {
         throw new UnauthorizedException('Unauthorized Access');
       }
       const user = await this.userService.findOneById(+resp.sub);
-       request.user = user;
+      request.user = user;
       return true;
     } catch (error) {
       if (error instanceof UnauthorizedException) {
@@ -37,7 +40,5 @@ export class AuthGuard implements CanActivate {
         throw new UnauthorizedException('Unauthorized Access');
       }
     }
-
-
   }
 }

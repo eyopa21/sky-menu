@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { ApplyOwnershipMetadata } from 'src/common/guard/decorators/ownership.decorator';
 import { Categories } from './entity/categories.entity';
@@ -10,41 +20,44 @@ import { UpdateCategoryDto } from './dto/updateCategory.dto';
 
 @Controller('categories')
 export class CategoriesController {
-    constructor(
-        private readonly categoriesService: CategoriesService
-    ){}
+  constructor(private readonly categoriesService: CategoriesService) {}
 
-    @Get()
-    findAll(){
-        return this.categoriesService.findAll()
-    }
+  @Get()
+  findAll() {
+    return this.categoriesService.findAll();
+  }
 
-    @Get('by-project/:projectId')
-    @ApplyOwnershipMetadata(Categories, 'projects.user')
-    @UseGuards(AuthGuard, OwnershipGuard)
-    find(@Param('projectId') projectId: string){
-        return this.categoriesService.findCategoriesByProjectId(+projectId)
+  @Get('by-project/:projectId')
+  @ApplyOwnershipMetadata(Categories, 'projects.user')
+  @UseGuards(AuthGuard, OwnershipGuard)
+  find(@Param('projectId') projectId: string) {
+    return this.categoriesService.findCategoriesByProjectId(+projectId);
+  }
 
-    }
+  @Post()
+  @UseGuards(AuthGuard)
+  create(
+    @Body() createCategoryDto: CreateCategoryDto,
+    @Req() request: Request,
+  ) {
+    const userId = request.user.id;
+    return this.categoriesService.createOne(createCategoryDto, userId);
+  }
 
-    @Post()
-    @UseGuards(AuthGuard)
-    create(@Body() createCategoryDto: CreateCategoryDto, @Req() request: Request){
-        const userId = request.user.id
-        return this.categoriesService.createOne(createCategoryDto, userId)
-    }
+  @Patch(':id')
+  @ApplyOwnershipMetadata(Categories, 'projects.user')
+  @UseGuards(AuthGuard, OwnershipGuard)
+  update(
+    @Param('id') id: string,
+    @Body() updateCategoryDto: UpdateCategoryDto,
+  ) {
+    return this.categoriesService.update(+id, updateCategoryDto);
+  }
 
-    @Patch(':id')
-    @ApplyOwnershipMetadata(Categories, 'projects.user')
-    @UseGuards(AuthGuard, OwnershipGuard)
-    update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto){
-        return this.categoriesService.update(+id, updateCategoryDto )
-    }
-
-    @Delete(':id')
-    @ApplyOwnershipMetadata(Categories, 'projects.user')
-    @UseGuards(AuthGuard, OwnershipGuard)
-    remove(@Param() id: string){
-        return this.categoriesService.removeCategory(+id)
-    }
+  @Delete(':id')
+  @ApplyOwnershipMetadata(Categories, 'projects.user')
+  @UseGuards(AuthGuard, OwnershipGuard)
+  remove(@Param() id: string) {
+    return this.categoriesService.removeCategory(+id);
+  }
 }

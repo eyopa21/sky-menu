@@ -1,6 +1,6 @@
-import { OmitType, PartialType } from "@nestjs/mapped-types";
-import { CreateMenuItemDto } from "./createMenuItem.dto";
+import { OmitType, PartialType } from '@nestjs/mapped-types';
+import { CreateMenuItemDto } from './createMenuItem.dto';
 
 export class UpdateMenuItemDto extends PartialType(
-    OmitType(CreateMenuItemDto, ['menuId', 'categoryId'] as const)
-){}
+  OmitType(CreateMenuItemDto, ['menuId', 'categoryId'] as const),
+) {}

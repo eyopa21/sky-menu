@@ -8,26 +8,24 @@ import { RefreshTokenDto } from './dto/refreshToken.dto';
 
 @Controller('auth')
 export class AuthController {
-    constructor(
-        private readonly authService: AuthService,
-        private readonly userService: UsersService
-    ) { }
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UsersService,
+  ) {}
 
-    @Post('login')
-    login(@Body() loginDto: LoginDto) {
-        return this.authService.login(loginDto)
-    }
+  @Post('login')
+  login(@Body() loginDto: LoginDto) {
+    return this.authService.login(loginDto);
+  }
 
+  @UseGuards(AuthGuard)
+  @Get('me')
+  getMe(@Req() req: Request) {
+    return req.user;
+  }
 
-    @UseGuards(AuthGuard)
-    @Get('me')
-    getMe(@Req() req: Request){
-        return req.user
-    }
-
-    @Post('refresh')
-    async refresh(@Body() refreshTokenDto: RefreshTokenDto) {
-      return this.authService.validateRefreshToken(refreshTokenDto.refreshToken);
-    }
-    
+  @Post('refresh')
+  async refresh(@Body() refreshTokenDto: RefreshTokenDto) {
+    return this.authService.validateRefreshToken(refreshTokenDto.refreshToken);
+  }
 }

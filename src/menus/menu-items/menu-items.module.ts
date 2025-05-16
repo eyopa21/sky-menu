@@ -9,10 +9,14 @@ import { UsersModule } from 'src/users/users.module';
 import { CategoriesModule } from '../categories/categories.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([MenuItems]), 
-  forwardRef(() => MenusModule), AuthModule, UsersModule, CategoriesModule
-] , 
+  imports: [
+    TypeOrmModule.forFeature([MenuItems]),
+    forwardRef(() => MenusModule),
+    AuthModule,
+    UsersModule,
+    CategoriesModule,
+  ],
   controllers: [MenuItemsController],
-  providers: [MenuItemsService]
+  providers: [MenuItemsService],
 })
 export class MenuItemsModule {}

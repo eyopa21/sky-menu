@@ -5,8 +5,8 @@ import { AuthModule } from 'src/auth/auth.module';
 import { UsersModule } from 'src/users/users.module';
 
 @Module({
-    imports: [AuthModule, UsersModule],
-    providers: [AuthGuard], 
-    exports: [AuthGuard]
+  imports: [AuthModule, UsersModule],
+  providers: [AuthGuard],
+  exports: [AuthGuard],
 })
 export class CommonModule {}

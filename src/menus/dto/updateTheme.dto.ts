@@ -1,7 +1,7 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class UpdateThemeDto {
-    @IsString()
-    @IsNotEmpty()
-    readonly theme: string
+  @IsString()
+  @IsNotEmpty()
+  readonly theme: string;
 }
