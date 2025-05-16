@@ -1,7 +1,5 @@
 import { Type } from 'class-transformer';
 import {
-  IS_DATE,
-  IS_DATE_STRING,
   IsDate,
   IsEnum,
   IsNotEmpty,

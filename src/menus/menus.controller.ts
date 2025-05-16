@@ -16,16 +16,16 @@ import { AuthGuard } from 'src/common/guard/auth.guard';
 import { CreateMenuDto } from './dto/createMenu.dto';
 import { OwnershipGuard } from 'src/common/guard/ownership.guard';
 import { ApplyOwnershipMetadata } from 'src/common/guard/decorators/ownership.decorator';
-import { Projects } from 'src/projects/entity/projects.entity';
 import { Menus } from './entity/menus.entity';
 import { UpdateThemeDto } from './dto/updateTheme.dto';
+import { Users } from 'src/users/entity/user.entity';
 
 @Controller('menus')
 export class MenusController {
   constructor(private readonly menusService: MenusService) {}
 
   @Get()
-  findAll(@Req() request: Request) {
+  findAll() {
     return this.menusService.findAll();
   }
 
@@ -39,7 +39,7 @@ export class MenusController {
   @Post()
   @UseGuards(AuthGuard)
   create(@Body() createMenuDto: CreateMenuDto, @Req() request: Request) {
-    const user = request.user;
+    const user = request.user as Users;
     return this.menusService.createOne(createMenuDto, +user.id);
   }
   s;

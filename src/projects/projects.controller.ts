@@ -18,6 +18,7 @@ import { AuthGuard } from 'src/common/guard/auth.guard';
 import { OwnershipGuard } from 'src/common/guard/ownership.guard';
 import { Projects } from './entity/projects.entity';
 import { Request } from 'express';
+import { Users } from 'src/users/entity/user.entity';
 
 @Controller('projects')
 export class ProjectsController {
@@ -31,7 +32,7 @@ export class ProjectsController {
   @Get()
   @UseGuards(AuthGuard)
   find(@Req() request: Request) {
-    const userId = request.user.id;
+    const userId = (request.user as Users).id;
 
     return this.projectsService.getMyProjects(+userId);
   }
@@ -49,7 +50,7 @@ export class ProjectsController {
     @Body() createProjectDto: CreateProjectDto,
     @Req() request: Request,
   ) {
-    const user = request.user;
+    const user = request.user as Users;
     if (!user) {
       throw new NotFoundException('User not found');
     }

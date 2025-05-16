@@ -5,7 +5,6 @@ import {
   Param,
   Patch,
   Post,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -13,7 +12,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from 'src/common/guard/auth.guard';
 import { OwnershipGuard } from 'src/common/guard/ownership.guard';
-import { Request } from 'express';
 import { ApplyOwnershipMetadata } from 'src/common/guard/decorators/ownership.decorator';
 import { Users } from './entity/user.entity';
 

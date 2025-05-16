@@ -1,17 +1,14 @@
 import {
-  ClassSerializerInterceptor,
   HttpException,
   HttpStatus,
   Injectable,
   NotFoundException,
-  UseInterceptors,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './entity/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
-import { Projects } from 'src/projects/entity/projects.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
