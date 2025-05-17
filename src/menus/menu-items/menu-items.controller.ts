@@ -17,6 +17,7 @@ import { UpdateMenuItemDto } from './dto/updateMenuItem.dto';
 import { ApplyOwnershipMetadata } from 'src/common/guard/decorators/ownership.decorator';
 import { MenuItems } from './entity/menu-items.entity';
 import { OwnershipGuard } from 'src/common/guard/ownership.guard';
+import { Users } from 'src/users/entity/user.entity';
 
 @Controller('menu-items')
 export class MenuItemsController {
@@ -33,7 +34,7 @@ export class MenuItemsController {
     @Body() createMenuItemDto: CreateMenuItemDto,
     @Req() request: Request,
   ) {
-    const userId = request.user.id;
+    const userId = (request.user as Users).id;
     return this.menuItemsService.createOne(createMenuItemDto, +userId);
   }
 

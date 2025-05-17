@@ -20,14 +20,14 @@ export class AuthService {
     @Inject(jwtConfig.KEY)
     private readonly jwtConfigService: ConfigType<typeof jwtConfig>,
   ) {}
-  async generateAccessToken(userId: number, email: string) {
+  generateAccessToken(userId: number, email: string) {
     const payload = { sub: userId, email };
     return this.authJwtService.sign(payload, {
       secret: this.jwtConfigService.JWT_ACCESS_SECRET,
       expiresIn: '45m',
     });
   }
-  async generateRefreshToken(userId: number) {
+  generateRefreshToken(userId: number) {
     const payload = { sub: userId };
     return this.authJwtService.sign(payload, {
       secret: this.jwtConfigService.JWT_REFRESH_SECRET,
@@ -46,15 +46,15 @@ export class AuthService {
     if (!isCorrectPassword) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    const accessToken = await this.generateAccessToken(user.id, user.email);
-    const refreshToken = await this.generateRefreshToken(user.id);
+    const accessToken = this.generateAccessToken(user.id, user.email);
+    const refreshToken = this.generateRefreshToken(user.id);
     return {
       accessToken,
       refreshToken,
       user,
     };
   }
-  async validateToken(token: string) {
+  validateToken(token: string) {
     try {
       const decoded = this.authJwtService.verify<JwtPayload>(token, {
         secret: process.env.JWT_ACCESS_SECRET,
@@ -74,7 +74,7 @@ export class AuthService {
         },
       );
       const user = await this.userService.findOneById(decoded.sub);
-      const accessToken = await this.generateAccessToken(user.id, user.email);
+      const accessToken = this.generateAccessToken(user.id, user.email);
       return {
         accessToken,
       };

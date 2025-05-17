@@ -5,7 +5,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { Observable } from 'rxjs';
 import { AuthService } from 'src/auth/auth.service';
 import { UsersService } from 'src/users/users.service';
 @Injectable()
@@ -25,7 +24,7 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException('Invalids token structure');
     }
     try {
-      const resp = await this.authService.validateToken(token);
+      const resp = this.authService.validateToken(token);
       if (!resp) {
         throw new UnauthorizedException('Unauthorized Access');
       }

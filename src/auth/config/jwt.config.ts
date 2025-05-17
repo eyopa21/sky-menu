@@ -1,12 +1,6 @@
 // src/config/environment.variables.ts
-import {
-  IsString,
-  IsNumber,
-  IsBoolean,
-  validateSync,
-  IsOptional,
-} from 'class-validator';
-import { plainToClass, Type } from 'class-transformer';
+import { IsString, validateSync } from 'class-validator';
+import { plainToClass } from 'class-transformer';
 import { registerAs } from '@nestjs/config';
 
 export class JwtEnvironmentVariables {

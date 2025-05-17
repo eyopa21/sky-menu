@@ -6,13 +6,9 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-  Timestamp,
   Unique,
   UpdateDateColumn,
 } from 'typeorm';

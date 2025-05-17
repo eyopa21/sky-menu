@@ -17,6 +17,7 @@ import { OwnershipGuard } from 'src/common/guard/ownership.guard';
 import { CreateCategoryDto } from './dto/createCategory.dto';
 import { Request } from 'express';
 import { UpdateCategoryDto } from './dto/updateCategory.dto';
+import { Users } from 'src/users/entity/user.entity';
 
 @Controller('categories')
 export class CategoriesController {
@@ -40,7 +41,7 @@ export class CategoriesController {
     @Body() createCategoryDto: CreateCategoryDto,
     @Req() request: Request,
   ) {
-    const userId = request.user.id;
+    const userId = (request.user as Users).id;
     return this.categoriesService.createOne(createCategoryDto, +userId);
   }
 

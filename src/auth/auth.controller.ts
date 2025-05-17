@@ -5,6 +5,7 @@ import { AuthGuard } from 'src/common/guard/auth.guard';
 import { UsersService } from 'src/users/users.service';
 import { Request } from 'express';
 import { RefreshTokenDto } from './dto/refreshToken.dto';
+import { Users } from 'src/users/entity/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -21,7 +22,7 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('me')
   getMe(@Req() req: Request) {
-    return req.user;
+    return req.user as Users;
   }
 
   @Post('refresh')
