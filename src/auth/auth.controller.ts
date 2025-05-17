@@ -6,7 +6,9 @@ import { UsersService } from 'src/users/users.service';
 import { Request } from 'express';
 import { RefreshTokenDto } from './dto/refreshToken.dto';
 import { Users } from 'src/users/entity/user.entity';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -14,11 +16,13 @@ export class AuthController {
     private readonly userService: UsersService,
   ) {}
 
+  @ApiOperation({ summary: 'Login', description: 'Generates a jwt token' })
   @Post('login')
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Get('me')
   getMe(@Req() req: Request) {
