@@ -18,6 +18,7 @@ spec:
       containers:
         - name: sky-menu
           image: eyopaa/sky-menu:latest
+          imagePullPolicy: Always
           
           ports:
             - containerPort: 3000
