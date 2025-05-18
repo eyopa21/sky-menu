@@ -16,7 +16,7 @@ export class FilterUserDto {
   })
   @IsOptional()
   @IsString()
-  name?: string;
+  full_name?: string;
 
   @ApiPropertyOptional({
     description: 'Filter by phone number',
@@ -73,7 +73,7 @@ export class QueryUserDto {
   @ApiPropertyOptional({
     description: 'Filters to apply on the users query',
     type: String,
-    example: JSON.stringify({ categoryId: 1, name: 'Example user' }),
+    example: JSON.stringify({ email: 'user@gmail.com', full_name: 'user' }),
   })
   @Transform(({ value }) =>
     value ? plainToInstance(FilterUserDto, JSON.parse(value)) : undefined,
@@ -86,7 +86,7 @@ export class QueryUserDto {
   @ApiPropertyOptional({
     description: 'Sort options for the users query',
     type: String,
-    example: JSON.stringify([{ orderBy: 'name', order: 'ASC' }]),
+    example: JSON.stringify([{ orderBy: 'full_name', order: 'ASC' }]),
   })
   @Transform(({ value }) =>
     value ? plainToInstance(SortUserDto, JSON.parse(value)) : undefined,

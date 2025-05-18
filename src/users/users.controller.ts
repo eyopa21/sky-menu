@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -14,14 +15,23 @@ import { AuthGuard } from 'src/common/guard/auth.guard';
 import { OwnershipGuard } from 'src/common/guard/ownership.guard';
 import { ApplyOwnershipMetadata } from 'src/common/guard/decorators/ownership.decorator';
 import { Users } from './entity/user.entity';
+import { InfinityPaginationResultType } from 'types/infinity-pagination-result';
+import { QueryUserDto } from './dto/query-user.dto';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  async findAll(
+    @Query() query: QueryUserDto,
+  ): Promise<InfinityPaginationResultType<Users>> {
+    const users = await this.userService.findAll(query);
+
+    return {
+      data: users,
+      hasNextPage: users.length === query.limit,
+    };
   }
 
   @Get(':id')

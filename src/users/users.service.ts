@@ -6,10 +6,11 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './entity/user.entity';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { QueryUserDto } from './dto/query-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -17,11 +18,45 @@ export class UsersService {
     @InjectRepository(Users)
     private readonly userRepository: Repository<Users>,
   ) {}
-  findAll() {
+  findAll(query: QueryUserDto) {
+    const where: FindOptionsWhere<Users> = {};
+
+    const filterOptions = query.filters;
+    const sortOptions = query.sort;
+
+    const page = query?.page ?? 1;
+    let limit = query?.limit ?? 10;
+    if (limit > 50) {
+      limit = 50;
+    }
+
+    if (filterOptions) {
+      if (filterOptions.full_name) {
+        where.full_name = ILike(`%${filterOptions.full_name}%`);
+      }
+      if (filterOptions.email) {
+        where.email = filterOptions.email;
+      }
+      if (filterOptions.phone_number) {
+        where.phone_number = ILike(`%${filterOptions.phone_number}%`);
+      }
+    }
+
     return this.userRepository.find({
+      skip: (page - 1) * limit,
+      take: limit,
+      where: where,
+      order: sortOptions?.reduce(
+        (accumulator, sort) => ({
+          ...accumulator,
+          [sort.orderBy]: sort.order,
+        }),
+        {},
+      ),
       relations: ['projects'],
     });
   }
+
   async findUserByEmail(email: string) {
     const user = await this.userRepository.findOneBy({
       email,

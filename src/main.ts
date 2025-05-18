@@ -22,7 +22,7 @@ async function bootstrap() {
     .setTitle('Sky-Menu')
     .setDescription('Digital menu application')
     .setVersion('1.0')
-    .addServer('localhost:3000')
+    // .addServer('localhost:3000')
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
