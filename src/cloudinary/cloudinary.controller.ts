@@ -9,7 +9,7 @@ import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CloudinaryService } from './cloudinary.service';
 
-@ApiTags('Cloud File Upload')
+@ApiTags('File Upload')
 @Controller('cloudinary')
 export class CloudinaryController {
   constructor(private readonly uploadService: CloudinaryService) {}
@@ -30,11 +30,11 @@ export class CloudinaryController {
   })
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
+    console.log(file);
     const url = await this.uploadService.uploadFile(file);
     return { url, message: 'File uploaded successfully' };
   }
 
-  // Upload multiple files
   @Post('upload-multiple')
   @ApiOperation({ summary: 'Upload Multiple Files' })
   @ApiConsumes('multipart/form-data')
@@ -52,7 +52,7 @@ export class CloudinaryController {
   })
   @UseInterceptors(FilesInterceptor('files'))
   async uploadFiles(@UploadedFiles() files: Express.Multer.File[]) {
-    const uploadResults = [];
+    const uploadResults: string[] = [];
 
     for (const file of files) {
       const url = await this.uploadService.uploadFile(file);

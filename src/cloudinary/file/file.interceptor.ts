@@ -7,12 +7,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Request } from 'express';
-import {
-  DOC_ALLOWED_TYPES,
-  MAX_DOC_SIZE,
-  IMAGE_ALLOWED_TYPES,
-  MAX_IMAGE_SIZE,
-} from './file.constants';
+import { IMAGE_ALLOWED_TYPES, MAX_IMAGE_SIZE } from './file.constants';
 
 @Injectable()
 export class FileInterceptor implements NestInterceptor {
@@ -24,17 +19,12 @@ export class FileInterceptor implements NestInterceptor {
       return next.handle();
     }
     const isImage = IMAGE_ALLOWED_TYPES.includes(file.mimetype);
-    const isDocument = DOC_ALLOWED_TYPES.includes(file.mimetype);
 
     if (isImage) {
       this.validateFile(file, IMAGE_ALLOWED_TYPES, MAX_IMAGE_SIZE, 'image');
-    } else if (isDocument) {
-      this.validateFile(file, DOC_ALLOWED_TYPES, MAX_DOC_SIZE, 'document');
     } else {
       throw new BadRequestException(
-        `Invalid file type. Allowed types for images: ${IMAGE_ALLOWED_TYPES.join(
-          ', ',
-        )}, and documents: ${DOC_ALLOWED_TYPES.join(', ')}`,
+        `Invalid file type. Allowed types for images: ${IMAGE_ALLOWED_TYPES.join(',')}`,
       );
     }
 

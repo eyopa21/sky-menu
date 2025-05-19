@@ -8,14 +8,14 @@ export class CloudinaryService {
     return new Promise((resolve, reject) => {
       cloudinary.uploader
         .upload_stream(
-          { resource_type: 'auto' },
+          { resource_type: 'image' },
           (
             error: UploadApiErrorResponse | undefined,
             result: UploadApiResponse | undefined,
           ) => {
             if (error) {
-              reject(error);
-            } else {
+              reject(new Error(error.message));
+            } else if (result?.secure_url) {
               resolve(result?.secure_url);
             }
           },
