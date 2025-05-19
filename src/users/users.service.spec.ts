@@ -16,9 +16,9 @@ const createMockRepository = <T = any>(): MockRepository<T> => ({
   findOne: jest.fn(),
   findOneBy: jest.fn(),
 });
-describe('UsersService', ()  => {
+describe('UsersService', () => {
   let userService: UsersService;
-  let coffeeRepository: MockRepository
+  let coffeeRepository: MockRepository;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({

@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
 import { ProjectsModule } from './projects/projects.module';
 import { MenusModule } from './menus/menus.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import databaseConfig from './database/config/database.config';
 import jwtConfig from './auth/config/jwt.config';
 
@@ -36,6 +37,7 @@ import jwtConfig from './auth/config/jwt.config';
     CommonModule,
     ProjectsModule,
     MenusModule,
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
