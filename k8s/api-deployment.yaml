@@ -50,3 +50,48 @@ spec:
               secretKeyRef: 
                 name: pg-secret
                 key: DB_PASSWORD
+
+          - name: JWT_ACCESS_SECRET
+            valueFrom: 
+              secretKeyRef: 
+                name: pg-secret
+                key: JWT_ACCESS_SECRET
+
+          - name: JWT_REFRESH_SECRET
+            valueFrom: 
+              secretKeyRef: 
+                name: pg-secret
+                key: JWT_REFRESH_SECRET
+
+          - name: CLOUDINARY_NAME
+            valueFrom: 
+              secretKeyRef: 
+                name: pg-secret
+                key: CLOUDINARY_NAME
+          
+          - name: CLOUDINARY_API_KEY
+            valueFrom: 
+              secretKeyRef: 
+                name: pg-secret
+                key: CLOUDINARY_API_KEY
+
+          - name: CLOUDINARY_API_SECRET
+            valueFrom: 
+              secretKeyRef: 
+                name: pg-secret
+                key: CLOUDINARY_API_SECRET
+
+
+          - name: GMAIL_APP_USERNAME
+            valueFrom: 
+              secretKeyRef: 
+                name: pg-secret
+                key: GMAIL_APP_USERNAME
+
+          - name: GMAIL_APP_PASSWORD
+            valueFrom: 
+              secretKeyRef: 
+                name: pg-secret
+                key: GMAIL_APP_PASSWORD
+
+          
