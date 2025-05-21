@@ -59,7 +59,7 @@ jobs:
           commit_message: 'lint-fix: automatic pnpm run  lint --fix'
 
   build-and-push:
-    needs: format
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
