@@ -45,4 +45,4 @@ COPY --from=development /usr/src/app/dist ./dist
 
 EXPOSE 3000
 
-CMD ["pnpm", "start"]
+CMD ["node", "dist/src/main.js"]
