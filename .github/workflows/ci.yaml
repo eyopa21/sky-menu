@@ -83,4 +83,26 @@ jobs:
           context: .
           file: ./Dockerfile 
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/sky-menu:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/sky-menu:${{ github.run_id }}
+
+
+
+  update-helm-chart:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update Helm chart with new image tag
+        run: |
+          IMAGE_TAG=${{ secrets.DOCKER_HUB_USERNAME }}/sky-menu:${{ github.run_id }}
+          sed -i "s|image: eyopaa/sky-menu:.*|image: $IMAGE_TAG|g" helm/sky-menu-chart/values.yaml
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'ci-feat: update helm chart with new image tag'
+  
