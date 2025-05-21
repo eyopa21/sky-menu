@@ -39,13 +39,13 @@ spec:
                 name: pg-secret
                 key: DB_NAME
 
-          - name: POSTGRES_USER
+          - name: DB_USER
             valueFrom: 
               secretKeyRef: 
                 name: pg-secret
                 key: DB_USER
     
-          - name: POSTGRES_PASSWORD
+          - name: DB_PASSWORD
             valueFrom: 
               secretKeyRef: 
                 name: pg-secret
