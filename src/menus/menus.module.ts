@@ -18,7 +18,7 @@ import { CommonModule } from 'src/common/common.module';
     AuthModule,
     CategoriesModule,
     MenuItemsModule,
-    CommonModule
+    CommonModule,
   ],
   providers: [MenusService],
   controllers: [MenusController],
