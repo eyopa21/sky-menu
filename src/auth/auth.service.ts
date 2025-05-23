@@ -51,7 +51,7 @@ export class AuthService {
     const accessToken = this.generateAccessToken(user.id, user.email);
     const refreshToken = this.generateRefreshToken(user.id);
 
-    const redisClient = this.redisService.getClient()
+    const redisClient = this.redisService.getClient();
 
     await redisClient.set(`access:${accessToken}`, user.id, { EX: 900 }); // 15 min
     await redisClient.set(`refresh:${refreshToken}`, user.id, { EX: 604800 }); // 7 days
@@ -74,7 +74,7 @@ export class AuthService {
     }
   }
   async validateRefreshToken(refreshToken: string) {
-    const redisClient = this.redisService.getClient()
+    const redisClient = this.redisService.getClient();
     try {
       const decoded = this.authJwtService.verify<Omit<JwtPayload, 'email'>>(
         refreshToken,
@@ -99,5 +99,4 @@ export class AuthService {
     await redisClient.del(`access:${accessToken}`);
     await redisClient.del(`refresh:${refreshToken}`);
   }
-  
 }

@@ -8,7 +8,12 @@ import { AuthModule } from 'src/auth/auth.module';
 import { CommonModule } from 'src/common/common.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Projects]), UsersModule, AuthModule, CommonModule],
+  imports: [
+    TypeOrmModule.forFeature([Projects]),
+    UsersModule,
+    AuthModule,
+    CommonModule,
+  ],
   controllers: [ProjectsController],
   providers: [ProjectsService],
   exports: [ProjectsService],

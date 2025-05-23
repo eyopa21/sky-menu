@@ -7,9 +7,7 @@ import { RedisModule } from 'src/redis/redis.module';
 import { OwnershipGuard } from './guard/ownership.guard';
 
 @Module({
-  imports: [AuthModule, RedisModule, 
-    forwardRef(() => UsersModule),
-  ],
+  imports: [AuthModule, RedisModule, forwardRef(() => UsersModule)],
   providers: [AuthGuard],
   exports: [AuthGuard, RedisModule],
 })

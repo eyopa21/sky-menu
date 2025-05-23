@@ -11,9 +11,9 @@ import { CommonModule } from 'src/common/common.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Users, Projects]),
-    
+
     forwardRef(() => AuthModule),
-    forwardRef(() => CommonModule)
+    forwardRef(() => CommonModule),
   ],
   controllers: [UsersController],
   providers: [UsersService],

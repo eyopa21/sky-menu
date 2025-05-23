@@ -17,11 +17,11 @@ export class RedisService {
     });
     this.client.on('error', (err) => {
       console.error('Redis Client Error', err);
-    })
-    await this.client.connect()
-    console.log("redis connected")
+    });
+    await this.client.connect();
+    console.log('redis connected');
   }
-  
+
   getClient() {
     return this.client;
   }
