@@ -7,6 +7,7 @@ import { Request } from 'express';
 import { RefreshTokenDto } from './dto/refreshToken.dto';
 import { Users } from 'src/users/entity/user.entity';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { LogoutDto } from './dto/logout.dto';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -30,7 +31,22 @@ export class AuthController {
   }
 
   @Post('refresh')
+  
   async refresh(@Body() refreshTokenDto: RefreshTokenDto) {
     return this.authService.validateRefreshToken(refreshTokenDto.refreshToken);
+  }
+
+  @Post('logout')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Logout',
+    description: 'Invalidates the jwt token and removes from session',
+  })
+  async logout(@Body() logoutDto: LogoutDto) {
+    return this.authService.logout(
+      logoutDto.accessToken,
+      logoutDto.refreshToken,
+    );
   }
 }
