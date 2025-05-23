@@ -6,6 +6,7 @@ import { Categories } from './entity/categories.entity';
 import { ProjectsModule } from 'src/projects/projects.module';
 import { UsersModule } from 'src/users/users.module';
 import { AuthModule } from 'src/auth/auth.module';
+import { CommonModule } from 'src/common/common.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { AuthModule } from 'src/auth/auth.module';
     ProjectsModule,
     UsersModule,
     AuthModule,
+    CommonModule,
   ],
   controllers: [CategoriesController],
   providers: [CategoriesService],

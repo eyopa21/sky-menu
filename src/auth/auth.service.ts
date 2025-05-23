@@ -11,6 +11,7 @@ import jwtConfig from './config/jwt.config';
 import { ConfigType } from '@nestjs/config';
 import * as bcrypt from 'bcryptjs';
 import { JwtPayload } from 'types/jwt-token';
+import { RedisService } from 'src/redis/redis.service';
 
 @Injectable()
 export class AuthService {
@@ -19,6 +20,7 @@ export class AuthService {
     private readonly userService: UsersService,
     @Inject(jwtConfig.KEY)
     private readonly jwtConfigService: ConfigType<typeof jwtConfig>,
+    private readonly redisService: RedisService,
   ) {}
   generateAccessToken(userId: number, email: string) {
     const payload = { sub: userId, email };
@@ -48,6 +50,12 @@ export class AuthService {
     }
     const accessToken = this.generateAccessToken(user.id, user.email);
     const refreshToken = this.generateRefreshToken(user.id);
+
+    const redisClient = this.redisService.getClient()
+
+    await redisClient.set(`access:${accessToken}`, user.id, { EX: 900 }); // 15 min
+    await redisClient.set(`refresh:${refreshToken}`, user.id, { EX: 604800 }); // 7 days
+
     return {
       accessToken,
       refreshToken,
@@ -66,6 +74,7 @@ export class AuthService {
     }
   }
   async validateRefreshToken(refreshToken: string) {
+    const redisClient = this.redisService.getClient()
     try {
       const decoded = this.authJwtService.verify<Omit<JwtPayload, 'email'>>(
         refreshToken,
@@ -75,6 +84,7 @@ export class AuthService {
       );
       const user = await this.userService.findOneById(decoded.sub);
       const accessToken = this.generateAccessToken(user.id, user.email);
+      await redisClient.set(`access:${accessToken}`, user.id, { EX: 900 });
       return {
         accessToken,
       };
@@ -83,4 +93,11 @@ export class AuthService {
       throw new UnauthorizedException('Invalid token');
     }
   }
+
+  async logout(accessToken: string, refreshToken: string) {
+    const redisClient = this.redisService.getClient();
+    await redisClient.del(`access:${accessToken}`);
+    await redisClient.del(`refresh:${refreshToken}`);
+  }
+  
 }

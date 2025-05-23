@@ -8,6 +8,7 @@ import { UsersModule } from 'src/users/users.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { MenuItemsModule } from './menu-items/menu-items.module';
+import { CommonModule } from 'src/common/common.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { MenuItemsModule } from './menu-items/menu-items.module';
     AuthModule,
     CategoriesModule,
     MenuItemsModule,
+    CommonModule
   ],
   providers: [MenusService],
   controllers: [MenusController],
