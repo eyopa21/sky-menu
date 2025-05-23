@@ -94,4 +94,8 @@ spec:
                 name: pg-secret
                 key: GMAIL_APP_PASSWORD
 
-          
+          - name: REDIS_URL
+            value: redis
+
+          - name: REDIS_PORT
+            value: 6379
