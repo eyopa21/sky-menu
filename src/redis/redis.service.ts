@@ -22,4 +22,7 @@ export class RedisService {
     console.log("redis connected")
   }
   
+  getClient() {
+    return this.client;
+  }
 }
