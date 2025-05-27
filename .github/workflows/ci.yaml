@@ -35,7 +35,7 @@ jobs:
 
       - name: Setup Git
         run: |
-          git config --global user.name "Job CI"
+          git config --global user.name "eyopa21"
           git config --global user.email "jobtennis21@gmail.com
 
       - name: Push changes
