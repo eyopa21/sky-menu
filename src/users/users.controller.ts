@@ -48,7 +48,7 @@ export class UsersController {
   }
 
   @Patch(':id')
-  @ApplyOwnershipMetadata(Users, 'user')
+  @ApplyOwnershipMetadata(Users, 'Users')
   @UseGuards(AuthGuard, OwnershipGuard)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.updateUser(+id, updateUserDto);
