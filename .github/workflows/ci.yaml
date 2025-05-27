@@ -28,10 +28,26 @@ jobs:
       - name: Format
         run: pnpm run format
 
-      - name: Commit formatted files
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'ci-fix: automatic prettier format fixes (pnpm run format) '
+      # - name: Commit formatted files
+      #   uses: stefanzweifel/git-auto-commit-action@v5
+      #   with:
+      #     commit_message: 'ci-fix: automatic prettier format fixes (pnpm run format) '
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "Job CI"
+          git config --global user.email "jobtennis21@gmail.com
+
+      - name: Push changes
+        run: |
+          if ! git diff --quiet; then
+            git pull --rebase origin "$(git rev-parse --abbrev-ref HEAD)"
+            git add .
+            git commit -m "ci-fix: automatic prettier format fixes (pnpm run format)"
+            git push
+          else
+            echo "No formatting changes to commit."
+          fi
 
   lint:
     needs: format
@@ -56,10 +72,26 @@ jobs:
       - name: Lint
         run: pnpm run lint --fix
 
-      - name: Commit linted files
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'lint-fix: automatic pnpm run  lint --fix'
+      # - name: Commit linted files
+      #   uses: stefanzweifel/git-auto-commit-action@v5
+      #   with:
+      #     commit_message: 'lint-fix: automatic pnpm run  lint --fix'
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "Job CI"
+          git config --global user.email "jobtennis21@gmail.com
+
+      - name: Push changes
+        run: |
+          if ! git diff --quiet; then
+            git pull --rebase origin "$(git rev-parse --abbrev-ref HEAD)"
+            git add .
+            git commit -m "ci-lint-fix: automatic pnpm run  lint --fix"
+            git push
+          else
+            echo "No formatting changes to commit."
+          fi
 
   build-and-push:
     needs: format
@@ -100,8 +132,24 @@ jobs:
         run: |
           sed -i 's/tag: .*/tag: "${{ github.run_id }}"/' helm/sky-menu-chart/values.yaml
 
-      - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'ci-feat: update helm chart with new image tag'
+      # - name: Commit and push changes
+      #   uses: stefanzweifel/git-auto-commit-action@v5
+      #   with:
+      #     commit_message: 'ci-feat: update helm chart with new image tag' 
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "Job CI"
+          git config --global user.email "jobtennis21@gmail.com
+
+      - name: Push changes
+        run: |
+          if ! git diff --quiet; then
+            git pull --rebase origin "$(git rev-parse --abbrev-ref HEAD)"
+            git add .
+            git commit -m "chore: auto-format files"
+            git push
+          else
+            echo "ci-feat: update helm chart with new image tag"
+          fi
   
