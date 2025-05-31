@@ -59,6 +59,5 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 
 
-k8s/pg-secret.yaml
-helm/sky-menu-chart/templates/pg-secret.yaml
+/k8s/pg-secret.yaml
 /helm/sky-menu-chart/templates/pg-secret.yaml
