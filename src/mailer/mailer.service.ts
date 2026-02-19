@@ -20,12 +20,13 @@ export class MailerService {
     });
   }
 
-  async sendMail(receiverEmail: string) {
+  async sendMail(receiverEmail: string, subject: string, content: string, isHtml: boolean = true) {
     const mailOptions: nodemailer.SendMailOptions = {
       from: this.mailerConfigService.GMAIL_APP_USERNAME,
       to: receiverEmail,
-      subject: 'SKY MENU',
+      subject: subject,
+      [isHtml ? 'html' : 'text']: content,
     };
-    await this.transporter.sendMail({ ...mailOptions });
+    await this.transporter.sendMail(mailOptions);
   }
 }

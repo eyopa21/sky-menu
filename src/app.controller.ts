@@ -16,6 +16,6 @@ export class AppController {
 
   @Post('send-mail')
   sendMail() {
-    return this.mailerService.sendMail('jobtennis21@gmail.com');
+    return this.mailerService.sendMail('jobtennis21@gmail.com', 'test', 'test');
   }
 }

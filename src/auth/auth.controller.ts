@@ -8,6 +8,7 @@ import { RefreshTokenDto } from './dto/refreshToken.dto';
 import { Users } from 'src/users/entity/user.entity';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LogoutDto } from './dto/logout.dto';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -21,6 +22,27 @@ export class AuthController {
   @Post('login')
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
+  }
+
+  @ApiOperation({ summary: 'Signup', description: 'Registers a new user' })
+  @Post('signup')
+  register(@Body() createUserDto: CreateUserDto) {
+    return this.authService.register(createUserDto);
+  }
+
+  @Post('forgot-password')
+  @ApiOperation({ summary: 'Forgot Password', description: 'Initiates password recovery' })
+  async forgotPassword(@Body('email') email: string) {
+    return this.authService.forgotPassword(email);
+  }
+
+  @Post('reset-password')
+  @ApiOperation({ summary: 'Reset Password', description: 'Resets password using a valid token' })
+  async resetPassword(
+    @Body('token') token: string,
+    @Body('password') password: string,
+  ) {
+    return this.authService.resetPassword(token, password);
   }
 
   @ApiBearerAuth()

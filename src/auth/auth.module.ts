@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from 'src/users/users.module';
 import { RedisModule } from 'src/redis/redis.module';
+import { MailerModule } from 'src/mailer/mailer.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { RedisModule } from 'src/redis/redis.module';
     }),
     forwardRef(() => UsersModule),
     forwardRef(() => RedisModule),
+    MailerModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],
