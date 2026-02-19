@@ -27,7 +27,7 @@ export class MenuItems {
   @Column({ type: String })
   name: string;
 
-  @Column('text', { array: true })
+  @Column('text', { array: true, default: '{}' })
   images: string[];
 
   @Column({ type: 'numeric' })
@@ -37,7 +37,28 @@ export class MenuItems {
   vatIncluded: boolean;
 
   @Column({ type: String, nullable: true })
-  description: string;
+  description: string | null;
+
+  @Column({ type: Boolean, default: true })
+  isAvailable: boolean;
+
+  @Column({ type: Number, default: 0 })
+  sortOrder: number;
+
+  @Column({ type: Number, nullable: true })
+  calories: number | null;
+
+  @Column({ type: Number, nullable: true })
+  preparationTime: number | null;
+
+  @Column({ type: 'numeric', nullable: true })
+  discount: number | null;
+
+  @Column('text', { array: true, nullable: true })
+  tags: string[] | null;
+
+  @Column('text', { array: true, nullable: true })
+  allergens: string[] | null;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -52,7 +73,7 @@ export class MenuItems {
   @JoinColumn({ name: 'menuId' })
   menu: Menus;
 
-  @ManyToOne(() => Categories, (category) => category.menuItem)
+  @ManyToOne(() => Categories, (category) => category.menuItems)
   @JoinColumn({ name: 'categoryId' })
   category: Categories;
 }

@@ -26,6 +26,9 @@ export class Projects {
   @Column({ type: String, unique: true })
   title: string;
 
+  @Column({ type: String, unique: true })
+  slug: string;
+
   @Column({ type: String })
   description: string;
 
@@ -34,6 +37,27 @@ export class Projects {
 
   @Column({ type: String, nullable: true })
   coverImage: string | null;
+
+  @Column({ type: String, length: 3, default: 'ETB' })
+  currency: string;
+
+  @Column({ type: String, nullable: true })
+  primaryColor: string | null;
+
+  @Column({ type: String, nullable: true })
+  accentColor: string | null;
+
+  @Column({ type: Boolean, default: false })
+  isPublished: boolean;
+
+  @Column({ type: String, nullable: true })
+  address: string | null;
+
+  @Column({ type: String, nullable: true })
+  phone: string | null;
+
+  @Column({ type: String, nullable: true })
+  website: string | null;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -54,5 +78,5 @@ export class Projects {
   @OneToMany(() => Categories, (category) => category.project, {
     cascade: true,
   })
-  categories: Categories;
+  categories: Categories[];
 }

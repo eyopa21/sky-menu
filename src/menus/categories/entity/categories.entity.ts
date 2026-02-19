@@ -6,15 +6,15 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-@Unique(['projectId', 'name']) // 👈 composite unique constraint
+@Unique(['projectId', 'name'])
 export class Categories {
   @PrimaryGeneratedColumn()
   id: number;
@@ -23,10 +23,19 @@ export class Categories {
   projectId: number;
 
   @Column({ type: String, nullable: true })
-  imageUrl: string;
+  imageUrl: string | null;
 
   @Column({ type: String })
   name: string;
+
+  @Column({ type: String, nullable: true })
+  description: string | null;
+
+  @Column({ type: Number, default: 0 })
+  sortOrder: number;
+
+  @Column({ type: Boolean, default: true })
+  isVisible: boolean;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -37,10 +46,10 @@ export class Categories {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @OneToOne(() => Projects, (project) => project.categories)
+  @ManyToOne(() => Projects, (project) => project.categories)
   @JoinColumn({ name: 'projectId' })
   project: Projects;
 
   @OneToMany(() => MenuItems, (menuItem) => menuItem.category)
-  menuItem: MenuItems[];
+  menuItems: MenuItems[];
 }

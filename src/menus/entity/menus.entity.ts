@@ -21,7 +21,16 @@ export class Menus {
   projectId: number;
 
   @Column({ type: String })
+  name: string;
+
+  @Column({ type: String })
   theme: string;
+
+  @Column({ type: Boolean, default: true })
+  isActive: boolean;
+
+  @Column({ type: String, length: 5, default: 'en' })
+  language: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -37,5 +46,5 @@ export class Menus {
   project: Projects;
 
   @OneToMany(() => MenuItems, (menuItem) => menuItem.menu)
-  menuItems: MenuItems;
+  menuItems: MenuItems[];
 }
