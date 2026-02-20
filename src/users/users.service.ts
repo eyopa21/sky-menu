@@ -100,9 +100,14 @@ export class UsersService {
   }
 
   async updateUser(id: number, updateUserDto: UpdateUserDto) {
+    const updateData = { ...updateUserDto };
+    if (updateData.password) {
+      const salt = await bcrypt.genSalt();
+      updateData.password = await bcrypt.hash(updateData.password, salt);
+    }
     const user = await this.userRepository.preload({
       id: +id,
-      ...updateUserDto,
+      ...updateData,
     });
     if (!user) {
       throw new NotFoundException(`User not found`);

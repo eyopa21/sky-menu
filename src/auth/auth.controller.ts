@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Param, Post, Patch, Request, UseGuards, Get, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { AuthGuard } from 'src/common/guard/auth.guard';
 import { UsersService } from 'src/users/users.service';
-import { Request } from 'express';
+import { Request as ExpressRequest } from 'express';
 import { RefreshTokenDto } from './dto/refreshToken.dto';
 import { Users } from 'src/users/entity/user.entity';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -47,8 +47,20 @@ export class AuthController {
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
+  @Patch('change-password')
+  @ApiOperation({ summary: 'Change Password', description: 'Updates the password for the current user' })
+  async changePassword(
+    @Request() req: any,
+    @Body('password') password: string,
+  ) {
+    const userId = req.user.id;
+    return this.authService.changePassword(userId, password);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   @Get('me')
-  getMe(@Req() req: Request) {
+  getMe(@Req() req: ExpressRequest) {
     return req.user as Users;
   }
 

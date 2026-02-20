@@ -139,6 +139,15 @@ export class AuthService {
     return { message: 'Password has been successfully reset.' };
   }
 
+  async changePassword(userId: number, newPassword: string) {
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    await this.userService.updateUser(userId, { password: hashedPassword });
+
+    return { message: 'Password has been successfully updated.' };
+  }
+
   validateToken(token: string) {
     try {
       const decoded = this.authJwtService.verify<JwtPayload>(token, {
