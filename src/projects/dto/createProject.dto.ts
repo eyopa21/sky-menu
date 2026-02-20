@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -26,4 +27,32 @@ export class CreateProjectDto {
   @IsString()
   @IsOptional()
   readonly coverImage: string | null;
+
+  @IsString()
+  @IsOptional()
+  readonly currency: string;
+
+  @IsString()
+  @IsOptional()
+  readonly primaryColor: string | null;
+
+  @IsString()
+  @IsOptional()
+  readonly accentColor: string | null;
+
+  @IsBoolean()
+  @IsOptional()
+  readonly isPublished: boolean;
+
+  @IsString()
+  @IsOptional()
+  readonly address: string | null;
+
+  @IsString()
+  @IsOptional()
+  readonly phone: string | null;
+
+  @IsString()
+  @IsOptional()
+  readonly website: string | null;
 }
