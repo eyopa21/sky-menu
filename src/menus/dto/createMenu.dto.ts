@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsPositive, IsString } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsPositive,
+  IsString,
+  Length,
+} from 'class-validator';
 
 export class CreateMenuDto {
   @IsPositive()
@@ -7,5 +13,14 @@ export class CreateMenuDto {
 
   @IsNotEmpty()
   @IsString()
+  readonly name: string;
+
+  @IsNotEmpty()
+  @IsString()
   readonly theme: string;
+
+  @IsString()
+  @IsOptional()
+  @Length(2, 5)
+  readonly language: string;
 }

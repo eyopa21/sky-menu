@@ -22,8 +22,6 @@ export class OwnershipGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
     const user = request.user as Users;
-    const resourceId = request.params.id;
-
     if (!user) throw new UnauthorizedException('User not authenticated');
 
     // Get metadata from decorator
@@ -35,6 +33,13 @@ export class OwnershipGuard implements CanActivate {
       'ownership_field',
       context.getHandler(),
     );
+    const paramName =
+      this.reflector.get<string>(
+        'ownership_param_name',
+        context.getHandler(),
+      ) || 'id';
+
+    const resourceId = request.params[paramName];
 
     if (!entity || !ownershipField) {
       throw new Error('OwnershipGuard requires @CheckOwnership metadata');

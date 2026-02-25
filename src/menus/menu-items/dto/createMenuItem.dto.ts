@@ -43,4 +43,33 @@ export class CreateMenuItemDto {
   @IsNumber()
   @IsPositive()
   price: number;
+
+  @IsOptional()
+  @IsBoolean()
+  isAvailable: boolean;
+
+  @IsOptional()
+  @IsInt()
+  @IsPositive()
+  calories: number;
+
+  @IsOptional()
+  @IsInt()
+  @IsPositive()
+  preparationTime: number;
+
+  @IsOptional()
+  @IsNumber()
+  @IsPositive()
+  discount: number;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  tags: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  allergens: string[];
 }

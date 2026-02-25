@@ -12,6 +12,7 @@ import {
 import { CategoriesService } from './categories.service';
 import { ApplyOwnershipMetadata } from 'src/common/guard/decorators/ownership.decorator';
 import { Categories } from './entity/categories.entity';
+import { Projects } from 'src/projects/entity/projects.entity';
 import { AuthGuard } from 'src/common/guard/auth.guard';
 import { OwnershipGuard } from 'src/common/guard/ownership.guard';
 import { CreateCategoryDto } from './dto/createCategory.dto';
@@ -29,7 +30,7 @@ export class CategoriesController {
   }
 
   @Get('by-project/:projectId')
-  @ApplyOwnershipMetadata(Categories, 'projects.user')
+  @ApplyOwnershipMetadata(Projects, 'user', 'projectId')
   @UseGuards(AuthGuard, OwnershipGuard)
   find(@Param('projectId') projectId: string) {
     return this.categoriesService.findCategoriesByProjectId(+projectId);
@@ -58,7 +59,7 @@ export class CategoriesController {
   @Delete(':id')
   @ApplyOwnershipMetadata(Categories, 'projects.user')
   @UseGuards(AuthGuard, OwnershipGuard)
-  remove(@Param() id: string) {
+  remove(@Param('id') id: string) {
     return this.categoriesService.removeCategory(+id);
   }
 }
