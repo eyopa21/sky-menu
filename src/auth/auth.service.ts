@@ -30,14 +30,14 @@ export class AuthService {
     const payload = { sub: userId, email };
     return this.authJwtService.sign(payload, {
       secret: this.jwtConfigService.JWT_ACCESS_SECRET,
-      expiresIn: '45m',
+      expiresIn: '7d',
     });
   }
   generateRefreshToken(userId: number) {
     const payload = { sub: userId };
     return this.authJwtService.sign(payload, {
       secret: this.jwtConfigService.JWT_REFRESH_SECRET,
-      expiresIn: '7d',
+      expiresIn: '30d',
     });
   }
   async login(loginDto: LoginDto) {
@@ -57,8 +57,8 @@ export class AuthService {
 
     const redisClient = this.redisService.getClient();
 
-    await redisClient.set(`access:${accessToken}`, user.id, { EX: 900 }); // 15 min
-    await redisClient.set(`refresh:${refreshToken}`, user.id, { EX: 604800 }); // 7 days
+    await redisClient.set(`access:${accessToken}`, user.id, { EX: 604800 }); // 7 days
+    await redisClient.set(`refresh:${refreshToken}`, user.id, { EX: 2592000 }); // 30 days
 
     return {
       accessToken,

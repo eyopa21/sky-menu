@@ -29,6 +29,11 @@ export class ProjectsController {
     return this.projectsService.getAll();
   }
 
+  @Get('slug/:slug')
+  findBySlug(@Param('slug') slug: string) {
+    return this.projectsService.findOneBySlug(slug);
+  }
+
   @Get()
   @UseGuards(AuthGuard)
   find(@Req() request: Request) {

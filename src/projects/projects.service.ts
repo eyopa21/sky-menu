@@ -84,4 +84,15 @@ export class ProjectsService {
     }
     return this.projectsRepository.save(project);
   }
+
+  async findOneBySlug(slug: string) {
+    const project = await this.projectsRepository.findOne({
+      where: { slug, isPublished: true },
+      relations: ['menu', 'menu.menuItems', 'categories'],
+    });
+    if (!project) {
+      throw new NotFoundException(`Project with slug ${slug} not found`);
+    }
+    return project;
+  }
 }
